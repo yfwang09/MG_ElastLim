@@ -16,6 +16,14 @@ Understanding the atomistic mechanisms of inelastic deformation in metallic glas
 
 Separate README files are provided in each folder for more details.
 
+## Dependencies (tested versions)
+
+* Python 3.10
+* LAMMPS 3Mar2020
+* numpy 1.21.2
+* scipy 1.4.1
+* matplotlib 3.4.3
+
 ## Contribution guidelines
 
 Please contact the authors if you have questions or want to contribute.

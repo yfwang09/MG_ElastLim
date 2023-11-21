@@ -1,0 +1,42 @@
+loading state path 2K
+State 1: 0.0000 -> 0.1948
+State 2: 0.1948 -> 0.0000
+ST type A 1-2: 0.1948
+loading state path 5K
+State 1: 0.0000 -> 0.1578
+State 2: 0.3000 -> 0.0468
+State 2: 0.1578 -> 0.4600
+State 4: 0.3832 -> 0.5540
+State 6: 0.5540 -> 0.3834
+State 7: 0.4780 -> 0.0000
+State 8: 0.1160 -> 0.0000
+ST type C 1-2: 0.0468 -> 0.1578
+ST type A 1-2: 0.1578
+ST type A 1-2: 0.0468
+ST type C 2-4: 0.3832 -> 0.4600
+ST type A 4-6: 0.5540
+ST type C 6-7: 0.3834 -> 0.4762
+ST type C 7-8: 0.0140 -> 0.1160
+loading state path 10K
+State 2: 0.0000 -> 0.4388
+State 4: 0.3572 -> 0.4388
+State 7: 0.4388 -> 0.0000
+State 6: 0.4388 -> 0.3796
+ST type C 4-2: 0.3572 -> 0.4388
+ST type A 2-7: 0.4388
+ST type C 7-6: 0.3796 -> 0.4388
+loading state path 20K
+State 1: 0.0000 -> 0.3500
+State 2: 0.0000 -> 0.3500
+State 7: 0.3500 -> 0.5800
+State 6: 0.5800 -> 0.3796
+State 8: 0.3404 -> 0.1840
+State 7: 0.3796 -> 0.1840
+State 2: 0.1840 -> 0.0000
+ST type C 1-2: 0.0000 -> 0.3500
+ST type A 2-7: 0.3500
+ST type C 7-6: 0.3796 -> 0.5800
+ST type A 7-6: 0.5800
+ST type A 7-6: 0.3796
+ST type A 2-7: 0.1840
+ST type C 7-8: 0.1840 -> 0.3404
