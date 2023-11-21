@@ -1,0 +1,38 @@
+# Relaxation of ZrCu metallic glass configurations
+
+    units           metal
+    boundary        p p p
+    atom_style      atomic
+    include         in.params
+    log             ${logdir}/log.begin
+
+    compute         pe all pe/atom
+    compute         pe_all all reduce sum c_pe
+    thermo          100000000
+    thermo_style    custom step temp c_pe_all etotal press pxx pyy pzz pxy pxz pyz lx ly lz vol
+    thermo_modify   format float %23.17e
+
+    neigh_modify    every 1 delay 0 check yes
+    minimize        ${etol_minimize} ${ftol_minimize} ${maxiter_minimize} ${maxeval_minimize}
+
+    log             ${logdir}/log.relax
+
+label loopi
+variable i loop ${istart} ${iend}
+    variable        filenum     equal   ${i}*${dump_freq}
+    variable        revfilenum  equal   (${iend}-${i})*${dump_freq}
+    read_dump       ${inputdir}/dump.${filenum}.gz ${filenum} x y z box yes replace yes
+    if "${unloading} == 1" then "read_dump   ${loadingdir}/dump.${revfilenum}.gz ${revfilenum} x y z box yes replace no"
+    if "${i} == 0"         then "reset_timestep 1"  # To avoid saving step 0
+    if "${i} == ${iend}"   then "print 'final step'"
+
+    dump            minimization all custom ${maxiter_minimize} ${relaxdir}/relaxed.dump id type x y z c_pe
+    dump_modify     minimization first no format float %23.17e
+    minimize	    ${etol_minimize} ${ftol_minimize} ${maxiter_minimize} ${maxeval_minimize}
+    undump          minimization
+
+next i
+jump in.relax.mg loopi
+
+log ${logdir}/log.finished
+

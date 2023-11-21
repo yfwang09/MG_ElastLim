@@ -1,0 +1,29 @@
+# Prepare sample with id 0
+python3 Workflow_sample_preparation.py --sample_id 0 --overwrite
+read
+
+# Prepare sample with id 1
+python3 Workflow_sample_preparation.py --sample_id 1 --overwrite
+read
+
+# Tensile test of sample 0 with 1e10K/s cooling rate and 1e7/s strain rate at temperature 0, 2, 50, 300K
+python3 Workflow_tensile_test.py --temp_list 2 50 300 --qrate 1e10  --erate 1e7 --max_tensile_strain 4 --sample_id 0  --overwrite --run_0K_simulation
+read
+
+# Tensile test of sample 1 with 5e8K/s cooling rate and 1e7/s strain rate at temperature 0, 2, 50, 300K
+python3 Workflow_tensile_test.py --temp_list 2 50 300 --qrate 5e8   --erate 1e7 --max_tensile_strain 4 --sample_id 1  --overwrite --run_0K_simulation
+read
+
+# Tensile test of reference sample (sample id -1: lammps_scripts/init_config_Cu64.5Zr35.5_2.8e+07.lammps) with max_strain to 4%
+python3 Workflow_tensile_test.py --temp_list 2 50 300 --qrate 2.8e7 --erate 1e7 --max_tensile_strain 4 --sample_id -1 --overwrite --run_0K_simulation
+read
+
+# 50K Tensile test of reference sample (sample id -1: lammps_scripts/init_config_Cu64.5Zr35.5_2.8e+07.lammps) with max_tensile_strain to 4%, and unloading from 1% to 0, no analysis_code availble for unloading test
+python3 Workflow_tensile_test.py --temp_list 50 --qrate 2.8e7 --erate 1e7 --max_tensile_strain 4 --sample_id -1 --overwrite --run_0K_simulation --unloading 1 --use_refdump --partition_mc2
+
+# Prepare NiNb sample with id 100, quenching rate 1e10K/s, anneal at 900K (sample id must not be the same as all other cases)
+python3 Workflow_sample_preparation.py --x1 0.6 --sample_id 100 --potfilename NiNb.eam.fs --elements Ni Nb --temp_anneal 900 
+
+# Tensile test (strain rate 1e7/s) of NiNb sample id 100 (quenching rate of 1e10K/s), at 2, 50, 300K up to 4% with unloading from 1%-0
+python3 Workflow_tensile_test.py --temp_list 2 50 300 --qrate 1e10 --erate 1e7 --sample_id 10 --potfilename NiNb.eam.fs --elements Ni Nb --overwrite
+
