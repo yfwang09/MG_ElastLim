@@ -169,4 +169,39 @@ if savefig:
     figname = 'FigureS9'
     fig.savefig(os.path.join(figure_dir, figname+'.pdf'))
 
+######################## Figure S10 ########################
+fig, ax = plt.subplots()
+
+xval = Eeig_list
+yval = np.array(spatial_list)[:, 0]
+xv = np.linspace(0, 10)
+pf = np.polyfit(xval, yval, 1)
+print(pf)
+yv = pf[0]*xv + pf[1]
+ax.plot(xval, yval, 'ko')
+ax.plot(xv, yv, '--k')
+
+ax.set_ylim(0,80)
+ax.set_xlabel(r'$E_{\rm eig}$ (meV)', fontsize=fs)
+ax.set_ylabel(r'$n_{\rm STZ}$', fontsize=fs)
+ax.tick_params(direction='in', labelsize=fstk)
+
+ax.annotate('Event I', xy=(xval[0], yval[0]), 
+            xytext=(0, 40), textcoords='offset points',
+            ha='center', va='bottom', fontsize=fs,
+            arrowprops=dict(arrowstyle='-|>', color='k', shrinkB=5))
+ax.annotate('Event II', xy=(xval[1], yval[1]), 
+            xytext=(40, 0), textcoords='offset points',
+            ha='left', va='center', fontsize=fs,
+            arrowprops=dict(arrowstyle='-|>', color='k', shrinkB=5))
+ax.annotate('Event III', xy=(xval[2], yval[2]), 
+            xytext=(-40, 0), textcoords='offset points',
+            ha='right', va='center', fontsize=fs,
+            arrowprops=dict(arrowstyle='-|>', color='k', shrinkB=5))
+fig.tight_layout()
+
+if savefig:
+    figname='FigureS10'
+    fig.savefig(os.path.join(figure_dir, figname+'.pdf'))
+
 plt.show()
