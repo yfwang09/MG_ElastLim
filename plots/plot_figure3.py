@@ -1,7 +1,7 @@
 # Script for generating figure 1 in the paper
 # Author: Yifan Wang
-# Figure 1b: schematic 1D potential energy landscape
-# Figure 1c: schematic stress-strain curve of metallic glass, with inset showing the yielding point (data from 20K simulation)
+# Figure 3abc: energy strain landscape of the metallic glass system
+# Figure 3def: paths of the ST events
 
 import os
 import numpy as np
