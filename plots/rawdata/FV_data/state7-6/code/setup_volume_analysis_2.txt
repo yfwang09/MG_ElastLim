@@ -1,0 +1,32 @@
+# Directory
+--input_direct /home/jing21/MLmat_data/MetallicGlass/natom-5000/qrate-2.8e+07/sample_0/erate-1.0e+07/strain_0-4.0/T20K/neb.4.0u_0.3400-0.u_0.4600-0/
+--output_dir /home/jing21/MLmat_data/MetallicGlass/natom-5000/qrate-2.8e+07/sample_0/erate-1.0e+07/strain_0-4.0/T20K/neb.4.0u_0.3400-0.u_0.4600-0/code/output/
+--temp_dir /home/jing21/MLmat_data/MetallicGlass/natom-5000/qrate-2.8e+07/sample_0/erate-1.0e+07/strain_0-4.0/T20K/neb.4.0u_0.3400-0.u_0.4600-0/code/output/temp/
+
+# LAMMPS raw data
+--lammps_dump dump.neb.final.mg
+--ref_dump dump.neb.final.mg.0
+--last_dump dump.neb.final.mg.15
+
+# configurations information
+--temp 20
+--frame 665
+--target_frame 1135
+--frames 949 1088 1135 1228 1368 1508
+--num_frame 2
+--drange 0 16 1
+
+# atomic parameters
+--R1 1.28
+--R2 1.60
+--schmitt_radius 1.12
+--alpha   1.1
+--mesh_size 0.2
+--dL 3.0
+--mises_crit 0.01
+
+# volume parameters
+--vol_th_hi 500
+--vol_th_lo 100
+--trace_th_hi 0.5
+--trace_th_lo 0.4

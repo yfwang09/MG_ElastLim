@@ -1,0 +1,9 @@
+#!/bin/sh
+#SBATCH --job-name=FV-20K
+
+#ovitos Workflow_volume_analysis.py -n 0 -i setup_volume_analysis_1.txt
+#ovitos Workflow_volume_analysis.py -n 1 -i setup_volume_analysis_1.txt
+ovitos Workflow_volume_analysis.py -n 3 -i setup_volume_analysis_1.txt
+ovitos Workflow_volume_analysis.py -n 4 -i setup_volume_analysis_1.txt
+ovitos Workflow_volume_analysis.py -n 10 -i setup_volume_analysis_1.txt
+exit
