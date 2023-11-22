@@ -448,4 +448,146 @@ if savefig:
     figname = 'Figure4'
     fig.savefig(os.path.join(figure_dir, figname+'.pdf'))
 
+
+###################################################################
+############## Figure S8: strain rate dependence ##################
+
+iA, iB = 1, 2
+emin, emax = -0.13, 0.3616
+# iA, iB = 18, 19
+# emin, emax = -2, 3.5
+# iA, iB = 2, 7
+# emin, emax = -0.5, 0.8
+xv = np.linspace(emin, emax, 100)
+strain, energy, Efun, emin_data, emax_data, eeig, Eeig, Efwd, Ebwd = load_ST_energy_strain(iA, iB, return_dict=False, return_Efwd_Ebwd=True)
+yv = Efun(xv)
+dEfwd, dEbwd, Ebfwd, Ebbwd = cal_dE_Eb(yv, return_dict=False)
+
+Eeig = Efun(eeig).max()-Efun(eeig)[0]
+Teig = Eeig/EvT
+
+Tlist = [1e-6, 2, 3, 5, 10, 20]
+clist = ['k', 'C0', 'C6', 'C1', 'C2', 'C4']
+gradEb = derivative(Efwd, eeig, dx=1e-7)
+kB = 8.6173324e-5 # eV/K
+h  = 4.135667696e-15 # eV.s
+erate = 1e7*100 # %/s
+nu0= 3.14e11
+eT = EvT*np.array(Tlist)
+for i in range(len(Tlist)):
+    yvals = eT[i]*np.ones(2)*1000
+
+x_offset = np.arange(len(Tlist))*0.4*10
+epl = 0.15*10
+lw = 2
+shrk = 0
+seig = eeig/pfit[0]
+
+fig, ax1 = plt.subplots(figsize=(5,4))
+
+xv_curves = np.array([emin, (emin+eeig)/2, eeig, (emax+eeig)/2, emax])
+dx_between_curves = 6
+Ecurves = Efun(xv_curves)
+Ecurves_plot = 1000*(Ecurves - Ecurves.min(axis=1, keepdims=True))
+
+############################################################
+iABlist = [(1, 2), (2, 7), (18, 19)]
+labels = ['I', 'III', 'V']
+
+for ierate, erate in enumerate([1e7*100, 1e4*100, 1e1*100, 1e-2*100]):
+    TtypeB = 1
+    xvlist = []
+    yvlist = []
+    
+    for i in range(len(iABlist)):
+        iA, iB = iABlist[i]
+        print('Event %s: state %d - %d'%(labels[i], iA, iB))
+        strain, energy, Efun, emin_data, emax_data, eeig, Eeig, Efwd, Ebwd = load_ST_energy_strain(iA, iB, return_dict=False, return_Efwd_Ebwd=True)
+        print('  eigen barrier: %.4f%% -- %.4f meV'%(eeig, 1000*Eeig))
+        gradEb = derivative(Efwd, eeig, dx=1e-7)
+        print('  gradient at eigen strain: %.4f meV'%(gradEb*1000))
+        cEbfwd, cEbbwd = Eeig - gradEb*eeig,  Eeig + gradEb*eeig
+        print('  intercept: fwd %.4f meV bwd %.4f meV'%(cEbfwd*1000, cEbbwd*1000))
+        etypeB = (cEbbwd - cEbfwd)/gradEb
+        print('  strain of A->B transition: %.4f%%, %.4f meV'%(etypeB, Efwd(etypeB)*1000))
+        emin, emax = eeig + Eeig/gradEb, eeig - Eeig/gradEb
+        print('  strain range: (%.4f%%, %.4f%%)'%(emin, emax))
+        Efnew = lambda x: gradEb*x + cEbfwd
+        Ebnew = lambda x: -gradEb*x+ cEbbwd
+
+        if iB == 7:
+            emax_plot = emax_data+0.2
+        elif iB == 19:
+            emax_plot = emax_data-0.1
+        else:
+            emax_plot = emax_data-0.05
+        emax_plot = emax_data+0.2
+        emin, emax = emin_data, emax_plot
+        xv = np.linspace(etypeB, emax_plot, 100)
+        xv = np.linspace(1e-3, emax_plot, 100)
+        kB = 8.6173324e-5 # eV/K
+        h  = 4.135667696e-15 # eV.s
+        nu0= 3.14e11
+        solveTv = lambda T: Efwd(xv) - kB*T*np.log(-(kB*T)*nu0/erate/gradEb)
+        Tv = fsolve(solveTv, np.ones_like(xv)*Efwd(etypeB)/EvT)
+        ind = np.logical_and(Tv > Tv.min(), Tv > 1e-3)
+        xv = xv[ind]
+        Tv = Tv[ind]
+        # ax1.plot(Tv, xv, '--C%d'%i)
+
+        solveTAB = lambda T: Efwd(etypeB) - kB*T*np.log(-(kB*T)*nu0/erate/gradEb)
+        TAB = fsolve(solveTAB, Efwd(etypeB)/EvT)
+        # ax1.plot(TAB, etypeB, '^C%d'%i, markersize=12)
+        solveTe = lambda T: Efwd(eeig) - kB*T*np.log(-(kB*T)*nu0/erate/gradEb)
+        Te = fsolve(solveTe, Efwd(eeig)/EvT)
+
+        EtypeB = kB*TtypeB*np.log(-(kB*TtypeB)*nu0/erate/gradEb)
+        print(EtypeB)
+        func_e0 = lambda x: Efwd(x) - EtypeB
+        print(emin, func_e0(emin), emax, func_e0(emax))
+        if i == 0:
+            e0 = emax
+        else:
+            e0 = root_scalar(func_e0, method='bisect', bracket=[emin, emax]).root
+        xv0 = np.linspace(e0, etypeB, 100)
+        solveyv = lambda T: Efwd(xv0) - kB*T*np.log(-(kB*T)*nu0/erate/gradEb)
+        yv = fsolve(solveyv, np.ones_like(xv0)*Efwd(etypeB)/EvT)
+        
+        if i == 0:
+            ind = np.logical_and(yv > yv.min(), yv > 1e-3)
+            xv0 = xv0[ind]
+            yv  = yv[ind]
+        
+        xvlist.append(xv0)
+        yvlist.append(yv)
+        TtypeB = yv[-1]
+    
+    if ierate == 0:
+        ax1.plot(np.concatenate(yvlist), np.concatenate(xvlist), '-k') #, label='Model') #, lw=2)
+    else:
+        ax1.plot(np.concatenate(yvlist), np.concatenate(xvlist), '-C%d'%(ierate-1))
+
+# templist = [0, 2, 5, 10, 15, 20, 30]
+# elimlist = [0.3616, 0.1948, 0.562, 0.4388, 0.422, 3.228, 3.16]
+rawdata_elim = np.loadtxt(os.path.join(rawdata_dir, 'Figure2b.txt'))
+templist = rawdata_elim[:, 0]
+elimlist = rawdata_elim[:, 1]
+MDmark, = ax1.plot(templist, elimlist, '*r', label='MD data', markersize=6)
+
+ax1.tick_params(labelsize=fstk, direction='in')
+ax1.set_xlabel('T (K)', fontsize=fs)
+ax1.set_ylabel(r'$\varepsilon_{\rm lim}$ (%)', fontsize=fs)
+ax1.set_ylim(0, 4)
+ax1.set_xlim(-2, 22)
+ax1.yaxis.set_label_position('right')
+ax1.yaxis.tick_right()
+
+############################################################
+
+fig.tight_layout()
+
+if savefig:
+    figname = 'FigureS8'
+    fig.savefig(os.path.join(figure_dir, figname+'.pdf'))
+
 plt.show()
