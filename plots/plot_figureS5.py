@@ -3,10 +3,6 @@
 # Supplementary Fig. 5a: stress-strain curve of 2K tensile loading
 # Supplementary Fig. 5b: MNADM of the 2K tensile loading
 
-###################################################################
-################### NOT TESTED ####################################
-###################################################################
-
 import os
 import numpy as np
 from scipy.interpolate import interp1d
@@ -56,8 +52,6 @@ x_u_elastic = x_els[indmax+1:]
 y_l_plot = yplot[:indmax+1]
 y_u_plot = yplot[indmax+1:]
 
-# print(indmax, xplot[indmax-1:indmax+2])
-
 # visualization
 x_offset, color_u, label = 0.0, 'C0', r'$2\,{\rm K}$'
 ax.plot(x_l_plot - x_l_elastic + x_offset, y_l_plot, color_u, label=label)
@@ -77,7 +71,6 @@ ax.annotate('', xy=(x0+dx, y0+dy), xycoords='data', xytext=(x0, y0), textcoords=
 
 ###################################################################
 ax.set_ylim([0, 0.5])
-# s0_interp = interp1d(strain_l0 - first_xl0, stress_l0 - first_yl0, kind='linear', fill_value='extrapolate')
 s0_interp = interp1d(x_l_elastic, y_l_plot, kind='linear', fill_value='extrapolate')
 eps_ticklabels = np.round(np.arange(0, 1.4, 0.2), decimals=5)
 eps_ticks = s0_interp(eps_ticklabels)
