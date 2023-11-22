@@ -1,0 +1,24 @@
+variable T0 equal 2
+variable T1 equal 2
+variable T2 equal 2
+variable timestep equal 0.0025
+variable Tdamp equal 0.25
+variable Pdamp equal 2.5
+variable total_steps_1 equal 0
+variable total_steps_2 equal 400000
+variable thermo_step equal 100
+variable do_minimize equal 1
+variable etol_minimize equal 0.001
+variable ftol_minimize equal 0.0001
+variable maxiter_minimize equal 1000
+variable maxeval_minimize equal 1000
+variable set_velocity equal 1
+variable rand_seed equal 88225932
+variable dump_freq equal 80000
+variable dumpdir string /home/yfwang09/Codes/MLmat/MetallicGlass/data/natom-5000/qrate-2.8e+07/sample_0/erate-1.0e+07/strain_0-4.0/T2K/dump.2
+variable restart_freq equal 0
+variable restart_file_1 string /home/yfwang09/Codes/MLmat/MetallicGlass/data/natom-5000/qrate-2.8e+07/sample_0/erate-1.0e+07/strain_0-4.0/T2K/dump.2/restart.2.1
+variable restart_file_2 string /home/yfwang09/Codes/MLmat/MetallicGlass/data/natom-5000/qrate-2.8e+07/sample_0/erate-1.0e+07/strain_0-4.0/T2K/dump.2/restart.2.2
+read_data /home/yfwang09/Codes/MLmat/MetallicGlass/lammps_scripts/init_config_Cu64.5Zr35.5_2.8e+07.lammps
+pair_style eam/fs
+pair_coeff * *  /home/yfwang09/Codes/MLmat/MetallicGlass/lammps_scripts/CuZr.eam.fs Cu Zr

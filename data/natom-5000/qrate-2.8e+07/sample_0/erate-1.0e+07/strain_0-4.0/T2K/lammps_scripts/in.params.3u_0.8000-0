@@ -1,0 +1,21 @@
+variable Ttarget equal 2
+variable timestep equal 0.001
+variable Tdamp equal 0.1
+variable change_box_init equal 2
+variable load_dump_init string /home/yfwang09/Codes/MLmat/MetallicGlass/data/natom-5000/qrate-2.8e+07/sample_0/erate-1.0e+07/strain_0-4.0/T2K/dump.3/dump.800000.gz
+variable load_dump_idx equal 800000
+variable N_deform equal 1
+variable ex_trate equal 4.00001599998312e-06
+variable ey_trate equal -9.999900001056439e-06
+variable ez_trate equal 4.00001599998312e-06
+variable total_steps_1 equal 0
+variable total_steps_2 equal 800000
+variable thermo_step equal 100
+variable dump_freq equal 400
+variable dumpdir string /home/yfwang09/Codes/MLmat/MetallicGlass/data/natom-5000/qrate-2.8e+07/sample_0/erate-1.0e+07/strain_0-4.0/T2K/dump.3u_0.8000-0
+variable restart_freq equal 0
+variable restart_file_1 string /home/yfwang09/Codes/MLmat/MetallicGlass/data/natom-5000/qrate-2.8e+07/sample_0/erate-1.0e+07/strain_0-4.0/T2K/dump.3u_0.8000-0/restart.3u_0.8000-0.1
+variable restart_file_2 string /home/yfwang09/Codes/MLmat/MetallicGlass/data/natom-5000/qrate-2.8e+07/sample_0/erate-1.0e+07/strain_0-4.0/T2K/dump.3u_0.8000-0/restart.3u_0.8000-0.2
+read_restart /home/yfwang09/Codes/MLmat/MetallicGlass/data/natom-5000/qrate-2.8e+07/sample_0/erate-1.0e+07/strain_0-4.0/T2K/dump.3/restart.3.2
+pair_style eam/fs
+pair_coeff * *  /home/yfwang09/Codes/MLmat/MetallicGlass/lammps_scripts/CuZr.eam.fs Cu Zr

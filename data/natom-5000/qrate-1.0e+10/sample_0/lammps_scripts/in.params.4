@@ -1,0 +1,19 @@
+variable T0 equal 2000
+variable T1 equal 700
+variable T2 equal 2
+variable timestep equal 0.0025
+variable Tdamp equal 0.25
+variable Pdamp equal 2.5
+variable total_steps_1 equal 52000000
+variable total_steps_2 equal 27920000
+variable thermo_step equal 500
+variable do_minimize equal 0
+variable set_velocity equal 0
+variable dump_freq equal 52000000
+variable dumpdir string /home/yfwang09/Codes/MLmat/MetallicGlass/data/natom-5000/qrate-1.0e+10/sample_0/dump.4
+variable restart_freq equal 52000000
+variable restart_file_1 string /home/yfwang09/Codes/MLmat/MetallicGlass/data/natom-5000/qrate-1.0e+10/sample_0/dump.4/restart.4.1
+variable restart_file_2 string /home/yfwang09/Codes/MLmat/MetallicGlass/data/natom-5000/qrate-1.0e+10/sample_0/dump.4/restart.4.2
+read_restart /home/yfwang09/Codes/MLmat/MetallicGlass/data/natom-5000/qrate-1.0e+10/sample_0/dump.3/restart.3.2
+pair_style eam/fs
+pair_coeff * *  /home/yfwang09/Codes/MLmat/MetallicGlass/lammps_scripts/CuZr.eam.fs Cu Zr

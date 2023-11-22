@@ -1,0 +1,36 @@
+# Relaxation of ZrCu metallic glass configurations
+
+    units           metal
+    boundary        p p p
+    atom_style      atomic
+    include         /home/yfwang09/Codes/MLmat/MetallicGlass/data/natom-5000/qrate-2.8e+07/sample_0/erate-1.0e+07/strain_0-4.0/T2K/lammps_scripts/in.params.4u_0.7000-0.0
+    log             ${logdir}/log.begin
+
+    compute         pe all pe/atom
+    compute         pe_all all reduce sum c_pe
+    thermo          10000
+    thermo_style    custom step temp c_pe_all etotal press pxx pyy pzz pxy pxz pyz lx ly lz vol
+    thermo_modify   format float %23.17e
+
+    neigh_modify    every 1 delay 0 check yes
+    minimize        ${etol_minimize} ${ftol_minimize} ${maxiter_minimize} ${maxeval_minimize}
+    dump            minimization all custom ${maxiter_minimize} ${relaxdir}/relaxed.dump id type x y z c_pe
+    dump_modify     minimization first no format float %23.17e
+    log             ${logdir}/log.relax
+
+label loopi
+variable i loop 0 1750
+    variable        filenum     equal   ${i}*${dump_freq}
+    variable        revfilenum  equal   (1750-${i})*${dump_freq}
+    read_dump       ${inputdir}/dump.${filenum}.gz ${filenum} x y z box yes replace yes
+    if "${unloading} == 1" then "read_dump   ${loadingdir}/dump.${revfilenum}.gz ${revfilenum} x y z box yes replace no"
+    if "${i} == 0"         then "print 'first step'"  # To avoid saving step 0
+    if "${i} == 1750"   then "reset_timestep 1"
+
+    minimize	    ${etol_minimize} ${ftol_minimize} ${maxiter_minimize} ${maxeval_minimize}
+
+next i
+jump in.4u_0.7000-0.0 loopi
+
+log ${logdir}/log.finished
+

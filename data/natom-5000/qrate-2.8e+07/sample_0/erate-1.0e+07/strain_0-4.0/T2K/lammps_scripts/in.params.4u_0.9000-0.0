@@ -1,0 +1,16 @@
+variable istart equal 0
+variable iend equal 2250
+variable unloading equal 0
+variable loadingdir string /home/yfwang09/Codes/MLmat/MetallicGlass/data/natom-5000/qrate-2.8e+07/sample_0/erate-1.0e+07/strain_0-4.0/T2K/dump.3
+variable etol_minimize equal 0.0
+variable ftol_minimize equal 1e-11
+variable maxiter_minimize equal 100000000
+variable maxeval_minimize equal 10000000000
+variable write_restart equal 0
+variable dump_freq equal 400
+variable logdir string /home/yfwang09/Codes/MLmat/MetallicGlass/data/natom-5000/qrate-2.8e+07/sample_0/erate-1.0e+07/strain_0-4.0/T2K/log.4u_0.9000-0
+variable inputdir string /home/yfwang09/Codes/MLmat/MetallicGlass/data/natom-5000/qrate-2.8e+07/sample_0/erate-1.0e+07/strain_0-4.0/T2K/dump.3u_0.9000-0
+variable relaxdir string /home/yfwang09/Codes/MLmat/MetallicGlass/data/natom-5000/qrate-2.8e+07/sample_0/erate-1.0e+07/strain_0-4.0/T2K/dump.4u_0.9000-0
+read_restart /home/yfwang09/Codes/MLmat/MetallicGlass/data/natom-5000/qrate-2.8e+07/sample_0/erate-1.0e+07/strain_0-4.0/T2K/dump.3u_0.9000-0/restart.3u_0.9000-0.2
+pair_style eam/fs
+pair_coeff * *  /home/yfwang09/Codes/MLmat/MetallicGlass/lammps_scripts/CuZr.eam.fs Cu Zr
