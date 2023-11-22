@@ -1,5 +1,7 @@
 # MG_ElastLim
 
+[![DOI](https://zenodo.org/badge/721847943.svg)](https://zenodo.org/doi/10.5281/zenodo.10184744)
+
 This repository contains the simulation and analysis scripts, and the data for plotting in the paper:
 
 Yifan Wang, Jing Liu, Jian-Zhong Jiang, and Wei Cai, Anomalous temperature dependence of elastic limit in metallic glasses, *accepted*
