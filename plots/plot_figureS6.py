@@ -1,7 +1,7 @@
 # Script for generating supplementary figure in the paper
 # Author: Yifan Wang
-# Supplementary Fig. 5a: stress-strain curve of 2K tensile loading
-# Supplementary Fig. 5b: MNADM of the 2K tensile loading
+# Supplementary Fig. 6a: stress-strain curve of 5K tensile loading
+# Supplementary Fig. 6d: stress-strain curve of 20K tensile loading
 
 import os
 import numpy as np
